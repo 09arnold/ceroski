@@ -6,7 +6,8 @@ const assetTypes = [
     Constants.TREE,
     Constants.TREE_CLUSTER,
     Constants.ROCK1,
-    Constants.ROCK2
+    Constants.ROCK2,
+    Constants.JUMP_RAMP
 ];
 
 export class Obstacle extends Entity {
@@ -15,5 +16,10 @@ export class Obstacle extends Entity {
 
         const assetIdx = randomInt(0, assetTypes.length - 1);
         this.assetName = assetTypes[assetIdx];
+        if(this.assetName.includes('tree')) {
+            this.isJumpable = false;
+        } else {
+            this.isJumpable = true;
+        }
     }
 }
