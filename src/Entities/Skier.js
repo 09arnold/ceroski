@@ -7,6 +7,9 @@ export class Skier extends Entity {
 
     direction = Constants.SKIER_DIRECTIONS.DOWN;
     speed = Constants.SKIER_STARTING_SPEED;
+    isJumping = false;
+    jumpStage = Constants.SKIER_JUMP_STAGE.TAXI;
+    jumpInited = false;
 
     constructor(x, y) {
         super(x, y);
@@ -24,10 +27,19 @@ export class Skier extends Entity {
     }
 
     updateAsset() {
-        this.assetName = Constants.SKIER_DIRECTION_ASSET[this.direction];
+        if (this.isJumping) {
+            this.assetName = Constants.SKIER_JUMP_ASSET[this.jumpStage];
+            console.log(this.assetName)
+        } else {
+            this.assetName = Constants.SKIER_DIRECTION_ASSET[this.direction];
+        }
     }
 
     move() {
+        if (this.isJumping && !this.jumpInited) {
+            this.jumpInited = true;
+            this.jumpAsync();
+        }
         switch (this.direction) {
             case Constants.SKIER_DIRECTIONS.LEFT_DOWN:
                 this.moveSkierLeftDown();
@@ -97,6 +109,26 @@ export class Skier extends Entity {
         this.setDirection(Constants.SKIER_DIRECTIONS.DOWN);
     }
 
+    initJump() {
+        this.isJumping = true;
+    }
+
+    jumpAsync() {
+        this.updateAsset();
+        if (Object.values(Constants.SKIER_JUMP_STAGE).includes(this.jumpStage)) {
+            this.jumpStage++;
+            if (this.jumpStage > 5) {
+                this.jumpStage = Constants.SKIER_JUMP_STAGE.TAXI;
+                this.isJumping = false;
+            }
+            setTimeout(() => { this.jumpAsync() }, 1000 / 5);
+        } else {
+            this.isJumping = false;
+            this.jumpStage = Constants.SKIER_JUMP_STAGE.TAXI
+        }
+        console.log(`Jump Stage: ${this.assetName}`);
+    }
+
     checkIfSkierHitObstacle(obstacleManager, assetManager) {
         const asset = assetManager.getAsset(this.assetName);
         const skierBounds = new Rect(
@@ -119,8 +151,21 @@ export class Skier extends Entity {
             return intersectTwoRects(skierBounds, obstacleBounds);
         });
 
-        if (collision) {
+        if (this.checkActualCollision(collision)) {
             this.setDirection(Constants.SKIER_DIRECTIONS.CRASH);
         }
     };
+
+    checkActualCollision(obstacle) {
+        if (obstacle && obstacle.assetName === Constants.JUMP_RAMP && !this.isJumping) {
+            this.initJump();
+        }
+        if (obstacle && !this.isJumping) {
+            return true;
+        }
+        if (obstacle && this.isJumping && !obstacle.isJumpable) {
+            return true;
+        }
+        return false;
+    }
 }
