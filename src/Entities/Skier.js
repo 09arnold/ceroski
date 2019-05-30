@@ -164,18 +164,20 @@ export class Skier extends Entity {
     };
 
     checkActualCollision(obstacle) {
-        if (obstacle && obstacle.assetName.indexOf('rhino') !== -1) {
-            this.lives = 0;
+        if (obstacle) {
+            if (obstacle.assetName.indexOf('rhino') !== -1) {
+                this.lives = 0;
+            }
+            if (obstacle.assetName === Constants.JUMP_RAMP && !this.isJumping) {
+                this.initJump();
+            }
+            if (
+                !this.isJumping ||
+                this.isJumping && !obstacle.isJumpable) {
+                return true;
+            }
         }
-        if (obstacle && obstacle.assetName === Constants.JUMP_RAMP && !this.isJumping) {
-            this.initJump();
-        }
-        if (
-            obstacle && !this.isJumping ||
-            obstacle && this.isJumping && !obstacle.isJumpable) {
-            return true;
-        }
-        
+
         return false;
     }
 }

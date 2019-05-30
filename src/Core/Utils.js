@@ -38,3 +38,7 @@ export function verticallyInline(rect1, rect2) {
         rect1.left >= rect2.left && rect1.left <= rect2.left
     );
 }
+
+export function secondsToDuraion(seconds) {
+    return new Date(1000 * seconds).toISOString().substr(14, 5);
+}
