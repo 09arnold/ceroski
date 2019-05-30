@@ -3,9 +3,9 @@ import { Entity } from "./Entity";
 import { intersectTwoRects, Rect } from "../Core/Utils";
 
 export class Skier extends Entity {
-    assetName = Constants.SKIER_DOWN;
+    assetName = Constants.SKIER_RIGHT;
 
-    direction = Constants.SKIER_DIRECTIONS.DOWN;
+    direction = Constants.SKIER_DIRECTIONS.RIGHT;
     lastDirection = this.direction;
     speed = Constants.SKIER_STARTING_SPEED;
     isJumping = false;

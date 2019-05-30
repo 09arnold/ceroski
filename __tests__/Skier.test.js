@@ -87,7 +87,7 @@ describe('Test skier movement', () => {
         });
     });
 
-    // describe('Jumping tests', () => {
+    // describe.only('Jumping tests', () => {
 
     //     jest.useFakeTimers();
 
@@ -115,8 +115,11 @@ describe('Test skier movement', () => {
     //     });
 
     //     it('should set the skier jumpStage to GEAR_DOWN', () => {
-    //         jest.advanceTimersByTime((1000 / numberOfJumpStages) * (Constants.SKIER_JUMP_STAGE.GEAR_DOWN));
     //         skier.jumpAsync();
+    //         const time = (1000 / numberOfJumpStages) * (Constants.SKIER_JUMP_STAGE.GEAR_DOWN -1);
+    //         console.log(`Jump time: ${time}, ${skier.jumpStage}, ${new Date().toJSON()}`);
+    //         jest.advanceTimersByTime(time);
+    //         console.log(`Jump time: ${time}, ${skier.jumpStage}, ${new Date().toJSON()}`);
     //         expect(skier.jumpStage).toBe(Constants.SKIER_JUMP_STAGE.GEAR_DOWN);
     //     });
     // });
