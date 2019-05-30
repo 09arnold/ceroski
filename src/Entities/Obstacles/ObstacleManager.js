@@ -83,6 +83,13 @@ export class ObstacleManager {
 
         this.obstacles.push(newObstacle);
     }
+    
+    placeObstacle(minX, maxX, minY, maxY, obstacle) {
+        const position = this.calculateOpenPosition(minX, maxX, minY, maxY);
+        const newObstacle = obstacle ? obstacle : new Obstacle(position.x, position.y);
+
+        this.obstacles.push(newObstacle);
+    }
 
     calculateOpenPosition(minX, maxX, minY, maxY) {
         const x = randomInt(minX, maxX);

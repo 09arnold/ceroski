@@ -4,20 +4,29 @@ import { Canvas } from './Canvas';
 import { Skier } from "../Entities/Skier";
 import { ObstacleManager } from "../Entities/Obstacles/ObstacleManager";
 import { Rect } from './Utils';
+import { Rhino } from "../Entities/Rhino";
 
 export class Game {
     gameWindow = null;
+    rhino = null;
+    gameConfig = {
+        rhinoTime: 20,
+        skerLives: 1
+    };
 
     constructor() {
         this.assetManager = new AssetManager();
         this.canvas = new Canvas(Constants.GAME_WIDTH, Constants.GAME_HEIGHT);
-        this.skier = new Skier(0, 0);
+        this.skier = new Skier(0, 0, this.gameConfig.skerLives);
         this.obstacleManager = new ObstacleManager();
 
         document.addEventListener('keydown', this.handleKeyDown.bind(this));
     }
 
     init() {
+        setTimeout(() => {
+            this.unleashRhino();
+        }, this.gameConfig.rhinoTime * 1000);
         this.obstacleManager.placeInitialObstacles();
     }
 
@@ -35,6 +44,9 @@ export class Game {
     }
 
     updateGameWindow() {
+        if (this.rhino) {
+            this.rhino.chase(this.skier);
+        }
         this.skier.move();
 
         const previousGameWindow = this.gameWindow;
@@ -58,6 +70,16 @@ export class Game {
         const top = skierPosition.y - (Constants.GAME_HEIGHT / 2);
 
         this.gameWindow = new Rect(left, top, left + Constants.GAME_WIDTH, top + Constants.GAME_HEIGHT);
+    }
+
+    unleashRhino() {
+        console.log('Enter rhirhi');
+        this.rhino = new Rhino(this.gameWindow.right - 50, this.gameWindow.top + 20);
+        this.rhino.assetManager = this.assetManager;
+        this.obstacleManager.placeObstacle(this.gameWindow.left, this.gameWindow.right, this.gameWindow.top, this.gameWindow.top, this.rhino);
+        setTimeout(() => {
+            this.rhino.chase(this.skier);
+        }, 1000);
     }
 
     handleKeyDown(event) {
