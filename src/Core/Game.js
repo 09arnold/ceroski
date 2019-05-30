@@ -9,6 +9,7 @@ import { Rhino } from "../Entities/Rhino";
 export class Game {
     gameWindow = null;
     rhino = null;
+    pause = false;
     gameConfig = {
         rhinoTime: 20,
         skerLives: 1
@@ -35,12 +36,15 @@ export class Game {
     }
 
     run() {
-        this.canvas.clearCanvas();
-
-        this.updateGameWindow();
-        this.drawGameWindow();
-
+        
+        if (!this.pause) {
+            this.canvas.clearCanvas();
+    
+            this.updateGameWindow();
+            this.drawGameWindow();
+        }
         requestAnimationFrame(this.run.bind(this));
+
     }
 
     updateGameWindow() {
@@ -82,6 +86,10 @@ export class Game {
         }, 1000);
     }
 
+    togglePause() {
+        this.pause = !this.pause;
+    }
+
     handleKeyDown(event) {
         switch (event.which) {
             case Constants.KEYS.LEFT:
@@ -102,6 +110,10 @@ export class Game {
                 break;
             case Constants.KEYS.SPACE:
                 this.skier.initJump();
+                event.preventDefault();
+                break;
+            case Constants.KEYS.ESC:
+                this.togglePause();
                 event.preventDefault();
                 break;
         }

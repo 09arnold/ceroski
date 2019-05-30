@@ -137,5 +137,6 @@ export const KEYS = {
     RIGHT: 39,
     UP: 38,
     DOWN: 40,
-    SPACE: 32
+    SPACE: 32,
+    ESC: 27
 };
