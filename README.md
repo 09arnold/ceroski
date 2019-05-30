@@ -106,13 +106,13 @@ We are looking forward to see what you come up with!
 
 * **Taught skier how to jump:** I added the ability for the skier to jump either by hitting a _jump ramp_ or when the space key is pressed. The skier can jump rocks but sadly not jump high enough to avoid colliding with trees as is expected. _The jump is fancy though, with a front flip and all_.
 
-* **Added a hungry Rhino:** I added a rhino that appears after a configurable number of seconds of skiing. The rhino will basically chase down the skier and well, eat the skier. The rhino's _slightly_ faster than the skier too, but that's also configurable.
+* **Added a hungry Rhino:** I added a rhino that appears after a configurable number of seconds (_Currently set to 15_) of skiing. The rhino will basically chase down the skier and well, eat the skier. The rhino's _slightly_ faster than the skier too, but that's also configurable.
 
 * **Delivery of the challenge:** I created a [Github Repo](https://github.com/09arnold/ceroski) for the challenge to make it available for download. I also took advantage of Github Pages to deliver the Ceros Ski Game online <a href="https://09arnold.github.io/ceroski/" target="_blank">here</a>, updated directly by pushing the dist folder from `npm run build` to the gh-pages branch, using a trick from <a href="https://medium.com/linagora-engineering/deploying-your-js-app-to-github-pages-the-easy-way-or-not-1ef8c48424b7" target="_blank">this article</a>
 
 * **Restart after game over:** After the rhino has eaten the skier, a prompt appears informing the player the game is over and shows the score. The prompt will also restart the game
 
-* **Take a ski break:** The game will now pause and resume when the esc key is pressed
+* **Take a ski break:** The game will now pause and resume when the `ESC` key is pressed
 
 * **Scoreboard:** A handy scoreboard has been added to the top right corner of the screen that shows the current score, which is accrued when the skier is skiing. The scoreboard also shows the duration of time since the skier started skiing
 

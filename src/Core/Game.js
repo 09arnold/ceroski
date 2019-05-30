@@ -17,7 +17,7 @@ export class Game {
     skierIsAlive = true;
 
     gameConfig = {
-        rhinoTime: 20,
+        rhinoTime: 15,
         rhinoSpeedBoost: 0,
         skerLives: 1,
         score: 0,
