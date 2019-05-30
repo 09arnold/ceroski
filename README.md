@@ -1,6 +1,8 @@
-# Ceros Ski Code Challenge
+# Ceros Ski Code Challenge 
 
 Welcome to the Ceros Code Challenge - Ski Edition!
+
+<small>_[What I came up with](#what-i-came-up-with)_</small>
 
 For this challenge, we have included some base code for Ceros Ski, our version of the classic Windows game SkiFree. If
 you've never heard of SkiFree, Google has plenty of examples. Better yet, you can play our version here: 
@@ -106,7 +108,7 @@ We are looking forward to see what you come up with!
 
 * **Added a hungry Rhino:** I added a rhino that appears after a configurable number of seconds of skiing. The rhino will basically chase down the skier and well, eat the skier. The rhino's _slightly_ faster than the skier too, but that's also configurable.
 
-* **Delivery of the challenge:** I created a [Github Repo](https://github.com/09arnold/ceroski) for the challenge to make it available for download. I also took advantage of Github Pages to deliver the Ceros Ski Game online [here](https://09arnold.github.io/ceroski/), updated directly by pushing the dist folder from `npm run build` to the gh-pages branch, using a trick from [this article](https://medium.com/linagora-engineering/deploying-your-js-app-to-github-pages-the-easy-way-or-not-1ef8c48424b7)
+* **Delivery of the challenge:** I created a [Github Repo](https://github.com/09arnold/ceroski) for the challenge to make it available for download. I also took advantage of Github Pages to deliver the Ceros Ski Game online <a href="https://09arnold.github.io/ceroski/" target="_blank">here</a>, updated directly by pushing the dist folder from `npm run build` to the gh-pages branch, using a trick from <a href="https://medium.com/linagora-engineering/deploying-your-js-app-to-github-pages-the-easy-way-or-not-1ef8c48424b7" target="_blank">this article</a>
 
 * **Found and fixed bug:** Sometimes on reload, the `previousGameWindow` object would be null and bring that blizzard around. I added a check for that and return when the object is not available
 
