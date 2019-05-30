@@ -46,6 +46,10 @@ export class ObstacleManager {
             return;
         }
 
+        if (!previousGameWindow) {
+            return;
+        }
+
         if(gameWindow.left < previousGameWindow.left) {
             this.placeObstacleLeft(gameWindow);
         }
