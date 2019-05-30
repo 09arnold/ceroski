@@ -110,6 +110,16 @@ We are looking forward to see what you come up with!
 
 * **Delivery of the challenge:** I created a [Github Repo](https://github.com/09arnold/ceroski) for the challenge to make it available for download. I also took advantage of Github Pages to deliver the Ceros Ski Game online <a href="https://09arnold.github.io/ceroski/" target="_blank">here</a>, updated directly by pushing the dist folder from `npm run build` to the gh-pages branch, using a trick from <a href="https://medium.com/linagora-engineering/deploying-your-js-app-to-github-pages-the-easy-way-or-not-1ef8c48424b7" target="_blank">this article</a>
 
+* **Restart after game over:** After the rhino has eaten the skier, a prompt appears informing the player the game is over and shows the score. The prompt will also restart the game
+
+* **Take a ski break:** The game will now pause and resume when the esc key is pressed
+
+* **Scoreboard:** A handy scoreboard has been added to the top right corner of the screen that shows the current score, which is accrued when the skier is skiing. The scoreboard also shows the duration of time since the skier started skiing
+
+* **Rhino rage:** As the game progresses, the rhino becomes faster at a configurable interval.
+
+* **A bit of game mechanics balancing:** To be a bit fairer to the skier, the rhino will slow down a bit while the skier is airborne. _Probably to admire that front flip_.
+
 * **Found and fixed bug:** Sometimes on reload, the `previousGameWindow` object would be null and bring that blizzard around. I added a check for that and return when the object is not available
 
 ### What wasn't done
