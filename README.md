@@ -91,3 +91,27 @@ how creative candidates get with this.
 * Write more unit tests for your code
 
 We are looking forward to see what you come up with!
+
+---
+
+## What I came up with
+
+### What was done
+
+* **Held back the blizzard:** I fixed the bug that used to occur when the skier crashed and the left key was pressed. Now, the skier will move out of the way of the obstacle it crashed into and then stand facing the direction of the key that was used to move the skier. If it's the down arrow key though, the skier will set off as soon it's cleared the obstacle
+
+* **Wrote initial unit tests to ensure the blizzard doesn't return:** I wrote unit tests to test the turning and moving capabilities of the skier
+
+* **Taught skier how to jump:** I added the ability for the skier to jump either by hitting a _jump ramp_ or when the space key is pressed. The skier can jump rocks but sadly not jump high enough to avoid colliding with trees as is expected. _The jump is fancy though, with a front flip and all_.
+
+* **Added a hungry Rhino:** I added a rhino that appears after a configurable number of seconds of skiing. The rhino will basically chase down the skier and well, eat the skier. The rhino's _slightly_ faster than the skier too, but that's also configurable.
+
+* **Delivery of the challenge:** I created a [Github Repo](https://github.com/09arnold/ceroski) for the challenge to make it available for download. I also took advantage of Github Pages to deliver the Ceros Ski Game online [here](https://09arnold.github.io/ceroski/), updated directly by pushing the dist folder from `npm run build` to the gh-pages branch, using a trick from [this article](https://medium.com/linagora-engineering/deploying-your-js-app-to-github-pages-the-easy-way-or-not-1ef8c48424b7)
+
+* **Found and fixed bug:** Sometimes on reload, the `previousGameWindow` object would be null and bring that blizzard around. I added a check for that and return when the object is not available
+
+### What wasn't done
+* **Rhino running assets usage:** Currently, only one rhino asset is used when the rhino is on the move 
+### Known Bugs
+* **Rhino eats a double:** When the rhino catches and eats the skier, the crashed skier can still be seen while the rhino looks like it's eating a _skier double_
+* **Skier still lives and can escape by moving _right_ after being eaten:** The rhino only moves left after eating the skier. Since the rhino eats a double (from the bug stated above), the skier can still live by moving right, away from the rhino, who then run off to the left. The skier can only move left and right after that rhino encounter though
