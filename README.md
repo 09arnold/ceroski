@@ -113,5 +113,5 @@ We are looking forward to see what you come up with!
 ### What wasn't done
 * **Rhino running assets usage:** Currently, only one rhino asset is used when the rhino is on the move 
 ### Known Bugs
-* **Rhino eats a double:** When the rhino catches and eats the skier, the crashed skier can still be seen while the rhino looks like it's eating a _skier double_
+* **Rhino eats a double:** When the rhino catches and eats the skier, the crashed skier can still be seen while the rhino looks like it's eating a _skier double_. The skier (asset) is not unloaded.
 * **Skier still lives and can escape by moving _right_ after being eaten:** The rhino only moves left after eating the skier. Since the rhino eats a double (from the bug stated above), the skier can still live by moving right, away from the rhino, who then run off to the left. The skier can only move left and right after that rhino encounter though
