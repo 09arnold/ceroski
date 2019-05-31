@@ -1,6 +1,7 @@
 export class GamePaused {
 
     gamePausedStyle = {
+        opacity: 0,
         position: 'fixed',
         top: '50%',
         left: '50%',
