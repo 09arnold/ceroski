@@ -81,26 +81,32 @@ export class Rhino extends Entity {
         const rhinoBounds = this.getBounds(this);
         const targetBounds = this.getBounds(target);
 
-        if (targetBounds.right < rhinoBounds.left && targetBounds.top >= rhinoBounds.bottom) {
+        // if rhino is above skier
+        if (this.checkTargetIsBelow(targetBounds, rhinoBounds)) {
+
+            // if the rhino is on the left, move down right
+            if (this.checkTargetIsRightward(targetBounds, rhinoBounds)) {
+                this.setDirection(Constants.RHINO_DIRECTIONS.RIGHT_DOWN)
+            }
+            // if the rhino is on the right, move down left
+            if (this.checkTargetIsLeftward(targetBounds, rhinoBounds)) {
+                this.setDirection(Constants.RHINO_DIRECTIONS.LEFT_DOWN)
+            }
+            // if rhino and skier are vertically aligned, move down
             if (verticallyInline(targetBounds, rhinoBounds)) {
                 this.setDirection(Constants.RHINO_DIRECTIONS.DOWN);
-            } else if (horizontallyInline(targetBounds, rhinoBounds)) {
-                this.setDirection(Constants.RHINO_DIRECTIONS.LEFT);
             }
-            else {
-                this.setDirection(Constants.RHINO_DIRECTIONS.LEFT_DOWN);
+        // else if rhino is below skier
+        } else if (this.checkTargetIsAbove(targetBounds, rhinoBounds) || horizontallyInline(targetBounds, rhinoBounds)){
+
+            // if rhino is on the left, move right
+            if (this.checkTargetIsRightward(targetBounds, rhinoBounds)) {
+                this.setDirection(Constants.RHINO_DIRECTIONS.RIGHT)
             }
-        }
-        if (targetBounds.right > rhinoBounds.left && targetBounds.top > rhinoBounds.top) {
-            this.setDirection(Constants.RHINO_DIRECTIONS.RIGHT_DOWN);
-            if (horizontallyInline(targetBounds, rhinoBounds)) {
-                this.setDirection(Constants.RHINO_DIRECTIONS.RIGHT);
+            // if rhino is on the right, move left
+            if (this.checkTargetIsLeftward(targetBounds, rhinoBounds)) {
+                this.setDirection(Constants.RHINO_DIRECTIONS.LEFT)
             }
-        }
-        if (horizontallyInline(targetBounds, rhinoBounds)) {
-            this.setDirection(Constants.RHINO_DIRECTIONS.LEFT);
-        } else if (verticallyInline(targetBounds, rhinoBounds)) {
-            this.setDirection(Constants.RHINO_DIRECTIONS.DOWN);
         }
 
         if (intersectTwoRects(rhinoBounds, targetBounds)) {
@@ -108,6 +114,22 @@ export class Rhino extends Entity {
         } else {
             this.move();
         }
+    }
+
+    checkTargetIsAbove(targetBounds, rhinoBounds) {
+        return targetBounds.bottom < rhinoBounds.top;
+    }
+
+    checkTargetIsBelow(targetBounds, rhinoBounds) {
+        return targetBounds.top > rhinoBounds.bottom;
+    }
+
+    checkTargetIsLeftward(targetBounds, rhinoBounds) {
+        return targetBounds.right < rhinoBounds.left
+    }
+
+    checkTargetIsRightward(targetBounds, rhinoBounds) {
+        return targetBounds.left > rhinoBounds.right
     }
 
     eat() {
@@ -141,5 +163,5 @@ export class Rhino extends Entity {
             target.y - asset.height / 4
         );
         return targetBounds;
-    }    
+    }
 }

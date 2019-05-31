@@ -158,15 +158,17 @@ export class Skier extends Entity {
             return intersectTwoRects(skierBounds, obstacleBounds);
         });
 
-        if (this.checkActualCollision(collision)) {
+        if (this.checkActualCollision(collision, assetManager)) {
             this.setDirection(Constants.SKIER_DIRECTIONS.CRASH);
         }
     };
 
-    checkActualCollision(obstacle) {
+    checkActualCollision(obstacle, assetManager) {
         if (obstacle) {
             if (obstacle.assetName.indexOf('rhino') !== -1) {
                 this.lives = 0;
+                const asset = assetManager.getAsset(this.assetName);
+                asset.src = '';
             }
             if (obstacle.assetName === Constants.JUMP_RAMP && !this.isJumping) {
                 this.initJump();
