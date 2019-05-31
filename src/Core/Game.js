@@ -6,6 +6,7 @@ import { ObstacleManager } from "../Entities/Obstacles/ObstacleManager";
 import { Rect, secondsToDuraion } from './Utils';
 import { Rhino } from "../Entities/Rhino";
 import { ScoreBoard } from "./ScoreBoard";
+import { GamePaused } from "./GamePaused";
 
 export class Game {
     gameWindow = null;
@@ -15,6 +16,27 @@ export class Game {
     rhinoTimerStarted = false;
     pause = false;
     skierIsAlive = true;
+    sid = 0;
+    scoreTimerStarted = false;
+
+    timers = {
+        scoreBoardUpdate: {
+            started: false,
+            id: 0
+        },
+        score: {
+            started: false,
+            id: 0
+        },
+        unleashRhino: {
+            started: false,
+            id: 0
+        },
+        gameDuration: {
+            started: false,
+            id: 0
+        }
+    }
 
     gameConfig = {
         rhinoTime: 15,
@@ -32,6 +54,7 @@ export class Game {
         this.skier = new Skier(0, 0, this.gameConfig.skerLives);
         this.obstacleManager = new ObstacleManager();
         this.scoreBoard = new ScoreBoard();
+        this.gamePaused = new GamePaused();
 
         document.addEventListener('keydown', this.handleKeyDown.bind(this));
     }
@@ -51,25 +74,33 @@ export class Game {
 
             this.updateGameWindow();
             this.drawGameWindow();
-        }
 
-        if (this.skier.direction === Constants.SKIER_DIRECTIONS.DOWN) {
-            this.startRhinoTimer = true;
-        }
-
-        if (this.startRhinoTimer && !this.rhinoTimerStarted) {
-            this.startTimers();
-            this.rhinoTimerStarted = true;
-        }
-        if (this.rhino) {
-            if (this.skier.isJumping) {
-                this.rhino.speed = Constants.RHINO_STARTING_SPEED - 2
-            } else {
-                this.rhino.speed = Constants.RHINO_STARTING_SPEED + this.gameConfig.rhinoSpeedBoost;
+            if (this.skier.direction === Constants.SKIER_DIRECTIONS.DOWN) {
+                this.startRhinoTimer = true;
             }
+
+            if (this.startRhinoTimer && !this.rhinoTimerStarted) {
+                this.startTimers();
+                this.rhinoTimerStarted = true;
+            }
+
+            if (this.rhino) {
+                if (this.skier.isJumping) {
+                    this.rhino.speed = Constants.RHINO_STARTING_SPEED - 2
+                } else {
+                    this.rhino.speed = Constants.RHINO_STARTING_SPEED + this.gameConfig.rhinoSpeedBoost;
+                }
+            }
+            
+            this.gamePaused.hide();
+
+            this.checkGameOver();
+        } else {
+            clearInterval(this.sid);
+            this.gamePaused.show();
         }
 
-        this.checkGameOver();
+
 
         requestAnimationFrame(this.run.bind(this));
 
@@ -119,8 +150,19 @@ export class Game {
     }
 
     startTimers() {
+        this.timers.gameDuration.id = this.startGameDurationTimer();
+        this.timers.gameDuration.started = true;
+        this.timers.unleashRhino.id = this.startUnleashRhinoTimer();
+        this.timers.unleashRhino.started = true;
+        this.timers.scoreBoardUpdate.id = this.startScoreBoardUpdateTimer();
+        this.timers.scoreBoardUpdate.started = true;
+        this.timers.score.id = this.startScoreTimer();
+        this.timers.score.started = true;
+    }
+
+    startScoreTimer() {
         // Start increasing score periodically when the skier starts skiing
-        setInterval(() => {
+        return setInterval(() => {
             if (
                 this.skier.lives > 0 && this.skier.direction !== Constants.SKIER_DIRECTIONS.LEFT &&
                 this.skier.direction !== Constants.SKIER_DIRECTIONS.right
@@ -128,16 +170,22 @@ export class Game {
                 this.gameConfig.score += 30;
             }
         }, this.gameConfig.scoreIncrementInterval * 1000);
+    }
 
+    startUnleashRhinoTimer() {
         // Start the timer for the rhino to be unleashed after the skier starts skiing
-        setTimeout(() => {
+        return setTimeout(() => {
             this.unleashRhino();
         }, this.gameConfig.rhinoTime * 1000);
+    }
 
-        setInterval(() => {
+    startScoreBoardUpdateTimer() {
+        return setInterval(() => {
             this.scoreBoard.updateScoreBoard(this.gameConfig.tick, this.gameConfig.score);
         }, 500);
+    }
 
+    startGameDurationTimer() {
         this.gameConfig.tickId = setInterval(() => {
             if (this.skier.lives > 0) {
                 this.gameConfig.tick++;
@@ -150,6 +198,7 @@ export class Game {
             }
         }, 1000);
 
+        return this.gameConfig.tickId;
     }
 
     checkGameOver() {
@@ -158,7 +207,7 @@ export class Game {
             setTimeout(() => {
                 alert(`Game over. You had a score of ${this.gameConfig.score}\nClick OK to restart`);
                 window.location.reload();
-            }, 3000);
+            }, 2000);
         }
     }
 
