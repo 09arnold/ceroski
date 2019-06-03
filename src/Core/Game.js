@@ -7,9 +7,11 @@ import { Rect, secondsToDuraion } from './Utils';
 import { Rhino } from "../Entities/Rhino";
 import { ScoreBoard } from "./ScoreBoard";
 import { GamePaused } from "./GamePaused";
+import { SoundManager } from "./SoundManager";
 
 export class Game {
     gameWindow = null;
+    soundManager = new SoundManager();
 
     rhino = null;
     startRhinoTimer = false;
@@ -91,16 +93,17 @@ export class Game {
                     this.rhino.speed = Constants.RHINO_STARTING_SPEED + this.gameConfig.rhinoSpeedBoost;
                 }
             }
-            
+
             this.gamePaused.hide();
 
             this.checkGameOver();
+
+            this.scoreBoard.updateScoreBoard(this.gameConfig.tick, this.gameConfig.score);
         } else {
             clearInterval(this.sid);
+            clearInterval(this.timers.scoreBoardUpdate.id);
             this.gamePaused.show();
         }
-
-
 
         requestAnimationFrame(this.run.bind(this));
 
@@ -136,13 +139,15 @@ export class Game {
     }
 
     unleashRhino() {
-        console.log('Enter rhirhi');
         this.rhino = new Rhino(this.gameWindow.right - 50, this.gameWindow.top + 20);
         this.rhino.assetManager = this.assetManager;
         this.obstacleManager.placeObstacle(this.gameWindow.left, this.gameWindow.right, this.gameWindow.top, this.gameWindow.top, this.rhino);
+
         setTimeout(() => {
             this.rhino.chase(this.skier);
         }, 1000);
+
+        this.soundManager.unleashedRhino();
     }
 
     togglePause() {
