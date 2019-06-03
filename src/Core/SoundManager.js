@@ -1,7 +1,7 @@
 export class SoundManager {
 
     SOUNDS = {
-        RHINO_UNLEASHED: '/audio/rhinoEnter.m4a'
+        RHINO_UNLEASHED: 'audio/rhinoEnter.m4a'
     }
 
     constructor() {

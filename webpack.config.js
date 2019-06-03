@@ -37,6 +37,7 @@ const config = {
         }),
         new CopyPlugin([
             { from: 'img/', to: 'img/' },
+            { from: 'audio/', to: 'audio/' },
         ])
     ],
 };
