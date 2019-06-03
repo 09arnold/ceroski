@@ -120,6 +120,8 @@ We are looking forward to see what you come up with!
 
 * **A bit of game mechanics balancing:** To be a bit fairer to the skier, the rhino will slow down a bit while the skier is airborne. _Probably to admire that front flip_. This makes the game more playable so you get to play for longer and stand a chance against the rhino
 
+* **Added a Sound Manager:** The sound manager plays a sound when the rhino is unleashed. 
+
 * **Found and fixed bug:** Sometimes on reload, the `previousGameWindow` object would be null and bring that blizzard around. I added a check for that and return when the object is not available
 
 ### What wasn't done
